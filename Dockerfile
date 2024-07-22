@@ -1,11 +1,18 @@
-FROM python:3.10-slim
+
+FROM python:3-slim
+
 
 WORKDIR /app
+COPY requirements.txt /app/
 
-COPY  . /app
+RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/* \
+    && python -m pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.tx
+COPY . /app/
 
 EXPOSE 8000
 
-CMD ["python","manage.py","runserver","0.0.0.0:8000"]
+ENV DJANGO_SETTINGS_MODULE=AmlABFlow_api.settings
+
+CMD ["gunicorn", "--bind", "127.0.0.1:8000", "AmlABFlow_api.wsgi:application"]
