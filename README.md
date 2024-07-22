@@ -49,6 +49,8 @@ Grafana: http://localhost:3000
 Django Endpoints
 /api/register_model/ - Register a new model
 /api/predict/ - Make predictions with a model
+
+
 5. Troubleshooting
 
 Common Issues
